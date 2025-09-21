@@ -1,0 +1,1 @@
+export const FACT_CHECK_API = "fact-check";
