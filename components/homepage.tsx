@@ -11,8 +11,7 @@ export default function Homepage() {
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<string>("Check Fact");
-  const [socket,setSocket]=useState<any>(null);
- 
+  
   useEffect(() => { 
     const connectSocket = async () => {
      const backendUrl = await getEnvVariable('BACKEND_BASE_URL');
