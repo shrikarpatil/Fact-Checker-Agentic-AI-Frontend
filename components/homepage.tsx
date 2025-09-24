@@ -1,13 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { checkFact } from "@/actions/fact-actions";
+import { socket } from "@/actions/socket";
 
 export default function Homepage() {
   const [claim, setClaim] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<string>("Check Fact");
+ 
+  useEffect(() => {   
+    socket.on("status", (data: any) => {      
+      setStatus(data.message);
+    });
+  },[])
 
   const handleCheck = async () => {
     if (!claim.trim()) return;
@@ -45,7 +53,7 @@ export default function Homepage() {
           disabled={loading}
           className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition disabled:opacity-50"
         >
-          {loading ? "Checking..." : "Check Fact"}
+          {status}
         </button>
 
         {error && <p className="mt-4 text-red-600 text-center">{error}</p>}
