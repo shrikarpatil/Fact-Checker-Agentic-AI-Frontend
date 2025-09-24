@@ -32,3 +32,4 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/shrikarpatil/frontend:latest
+

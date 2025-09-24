@@ -16,17 +16,13 @@ export default function Homepage() {
   useEffect(() => { 
     const connectSocket = async () => {
      const backendUrl = await getEnvVariable('BACKEND_BASE_URL');
-      const newSocket = io(backendUrl!);
-      setSocket(newSocket);
-    }
-    if (!socket) {
-      connectSocket();
-    }
-    else {
+      const socket = io(backendUrl!);
       socket.on("status", (data: any) => {
         setStatus(data.message);
       });
     }
+    connectSocket();   
+      
   },[])
 
   const handleCheck = async () => {
