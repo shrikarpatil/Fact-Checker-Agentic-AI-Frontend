@@ -3,6 +3,7 @@ FROM node:20-alpine AS  builder
 WORKDIR /app
 
 COPY package.json package-lock.json* ./
+COPY next.config.mjs .
 
 RUN npm ci
 
@@ -19,6 +20,7 @@ WORKDIR /app
 
 
 COPY package.json package-lock.json* ./
+COPY next.config.mjs .
 RUN npm ci --omit=dev
 
 
