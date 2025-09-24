@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { checkFact } from "@/actions/fact-actions";
-import { socket } from "@/actions/socket";
+import { getEnvVariable } from "@/actions/getEnvVariable";
+import  io  from "socket.io-client";
 
 export default function Homepage() {
   const [claim, setClaim] = useState("");
@@ -10,11 +11,22 @@ export default function Homepage() {
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<string>("Check Fact");
+  const [socket,setSocket]=useState<any>(null);
  
-  useEffect(() => {   
-    socket.on("status", (data: any) => {      
-      setStatus(data.message);
-    });
+  useEffect(() => { 
+    const connectSocket = async () => {
+     const backendUrl = await getEnvVariable('BACKEND_BASE_URL');
+      const newSocket = io(backendUrl!);
+      setSocket(newSocket);
+    }
+    if (!socket) {
+      connectSocket();
+    }
+    else {
+      socket.on("status", (data: any) => {
+        setStatus(data.message);
+      });
+    }
   },[])
 
   const handleCheck = async () => {

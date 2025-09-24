@@ -27,3 +27,15 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/shrikarpatil/frontend:latest
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            docker pull ghcr.io/shrikarpatil/frontend:latest
+            docker stop frontend || true
+            docker rm frontend || true
+            docker run -d -p 3000:3000 --name frontend ghcr.io/shrikarpatil/frontend:latest
