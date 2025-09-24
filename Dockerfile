@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 COPY next.config.mjs .
 
+
 RUN npm ci
 
 
@@ -20,7 +21,7 @@ WORKDIR /app
 
 
 COPY package.json package-lock.json* ./
-COPY next.config.mjs .
+
 RUN npm ci --omit=dev
 
 
