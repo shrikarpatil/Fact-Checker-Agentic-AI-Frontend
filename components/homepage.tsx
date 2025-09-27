@@ -14,7 +14,7 @@ export default function Homepage() {
   
   useEffect(() => { 
     const connectSocket = async () => {
-     const backendUrl = await getEnvVariable('BACKEND_BASE_URL');
+     const backendUrl = await getEnvVariable('WS_BASE_URL');
       const socket = io(backendUrl!);
       socket.on("status", (data: any) => {
         setStatus(data.message);
